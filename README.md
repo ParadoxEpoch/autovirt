@@ -1,17 +1,18 @@
 # AutoVirt
 An (experimental) attempt at making single-GPU PCIe passthrough to QEMU VMs easier.
+
 _This project is still in development and is not currently feature complete._
 
-With this project, you can easily setup a Windows/macOS/Linux Virtual Machine on a Linux host with a single GPU and full PCIe passthrough to run at near-native performance without having to dual-boot. Perfect for running a Windows gaming VM under Linux.
+With AutoVirt, you can easily setup a Windows/macOS/Linux Virtual Machine on a Linux host with a single GPU and full PCIe passthrough to run at near-native performance without having to dual-boot. Perfect for running a Windows gaming VM under Linux.
 
 Currently includes iommu-tool, which displays IOMMU groups in a GUI. The goal is to be able to select groups/devices to passthrough and have iommu-tool automatically generate valid libvirt hook scripts to unbind/rebind PCIe devices.
 
 ## Compatibility
 This project has been tested on the following system:
-* Motherboard: ASUS ROG Strix X570-E
-* Processor: AMD Ryzen 3900X
-* Graphics: ASUS GeForce RTX 3080 ROG Strix
-* Host OS: Manjaro Linux 21.1.4
+* **Motherboard:** ASUS ROG Strix X570-E
+* **Processor:** AMD Ryzen 3900X
+* **Graphics:** ASUS GeForce RTX 3080 ROG Strix
+* **Host OS:** Manjaro Linux 21.1.4
 
 Ideally you should have relatively sane IOMMU grouping to avoid ACS patching. The ambition is to eventually have AutoVirt handle this stuff automatically for you, but that's not the case yet.
 
