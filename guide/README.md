@@ -1,3 +1,3 @@
 ## AutoVirt Guide to Virtualisation
 
-### This guide is under development. Coming soon.
+### This guide is under development. Coming soon
