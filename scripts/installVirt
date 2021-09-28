@@ -1,0 +1,30 @@
+#!/bin/bash
+
+installArch() {
+    echo "Arch Linux based distro detected. Proceeding with package installation..."
+    sudo pacman -Syy
+    sudo pacman -S qemu libvirt ovmf virt-manager virt-viewer
+    ## ebtables should probably be installed so we can use non-passthrough networking, but since it replaces iptables we should have an additional prompt to confirm with the user.
+    ## WE DON'T NEED qemu-arch-extra for x86_64 virtualization. Needed for emulating ARM/PPC etc... | pacman -S qemu qemu-arch-extra libvirt ovmf virt-manager virt-viewer
+}
+
+installDebian() {
+    echo "This script is still under development. Please install the following packages manually:"
+    echo "qemu, libvirt, ovmf, virt-manager"
+    exit 1
+}
+
+installRhel() {
+    echo "This script is still under development. Please install the following packages manually:"
+    echo "qemu, libvirt, ovmf, virt-manager"
+    exit 1
+}
+
+# Attempt to identify distro base and direct script to relevant install function
+if [ -f "/etc/arch-release" ]; then
+    installArch
+elif [ -f "/etc/debian-release" ]; then
+    installDebian
+elif [ -f "/etc/redhat-release" ]; then
+    installRhel
+fi

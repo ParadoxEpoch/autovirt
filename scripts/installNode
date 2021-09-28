@@ -1,0 +1,91 @@
+#!/bin/bash
+
+source ./scripts/ask
+
+installArch() {
+    echo "I detected an Arch based Linux distro on your system"
+    echo "If you continue, this script will attempt to install Node.js & NPM binaries from the official Arch Linux community repository"
+    echo "NOTE: Please make sure you have the Arch Linux community repo enabled. It should be enabled by default."
+
+    if ! ask "Install Node.js from the official Arch community repo?"; then
+        echo "Aborting."
+        exit 1
+    fi
+
+    sudo pacman -Syy
+    sudo pacman -S --noconfirm nodejs npm
+
+}
+
+installDebian() {
+    echo "I detected a Debian based Linux distro on your system"
+    echo "The version of Node.js included in your distro's default repositories is likely *very* out of date. We'll install from the NodeSource PPA instead."
+    echo "If you continue, this script will attempt to install the latest Node.js & NPM binaries from NodeSource automatically"
+
+    if ! ask "Install Node.js from NodeSource?"; then
+        echo "Aborting."
+        exit 1
+    fi
+
+    curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+
+}
+
+installRhel() {
+    echo "I detected a RHEL based Linux distro on your system"
+    echo "If you continue, this script will attempt to install the latest Node.js & NPM binaries from NodeSource automatically"
+
+    if ! ask "Install Node.js from NodeSource?"; then
+        echo "Aborting."
+        exit 1
+    fi
+
+    curl -fsSL https://rpm.nodesource.com/setup_current.x | sudo bash -
+
+}
+
+# Check if Node.js is already installed. If it is, terminate the script.
+if command -v node &> /dev/null
+then
+    echo "Node.js is already installed!"
+    exit 0
+fi
+
+# Check if lsb_release exists. If it does, attempt to identify an officially supported distro.
+if command -v lsb_release &> /dev/null
+then
+    distro=$(lsb_release -is)
+    echo "- Detected distro ${distro}"
+    case $distro in
+        ManjaroLinux) echo "You are using an officially supported distro, yay!";;
+        #Ubuntu|Debian|Mint) echo "You are using Ubuntu/Debian/Mint";;
+        *) echo "You are not using an officially supported distro!";;
+    esac
+fi
+
+echo
+
+# Attempt to identify distro base and direct script to relevant install function
+if [ -f "/etc/arch-release" ]; then
+    installArch
+elif [ -f "/etc/debian-release" ]; then
+    installDebian
+elif [ -f "/etc/redhat-release" ]; then
+    installRhel
+else
+    echo "Automatic Node.js installation is not supported on this Linux Distribution. Please install Node.js and NPM manually and try again."
+    exit 1
+fi
+
+echo
+
+# Check if Node.js was successfully installed
+if command -v node &> /dev/null
+then
+    echo "Node.js was installed successfully!"
+    exit 0
+else
+    echo "Node.js cannot be found. Installation appears to have failed!"
+    exit 1
+fi
