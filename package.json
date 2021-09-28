@@ -1,22 +1,23 @@
 {
-  "name": "parapass",
+  "name": "autovirt",
   "version": "1.0.0",
   "description": "QEMU VirtIO Virtualisation w/ PCIe Passthrough and Web UI",
   "main": "index.js",
   "scripts": {
-    "start": "electron --inspect .",
+    "start": "electron .",
+    "dev": "electron --inspect .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maega/parapass.git"
+    "url": "git+https://github.com/maega/autovirt.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/maega/parapass/issues"
+    "url": "https://github.com/maega/autovirt/issues"
   },
-  "homepage": "https://github.com/maega/parapass#readme",
+  "homepage": "https://github.com/maega/autovirt#readme",
   "dependencies": {
     "electron": "^15.0.0",
     "jquery": "^3.6.0"
