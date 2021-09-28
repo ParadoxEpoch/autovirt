@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>IOMMU Tool</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap');
+
+            body {
+                font-family: 'Open Sans', sans-serif;
+                background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+
+            #iommu-groups {
+                padding-top: 40px;
+            }
+
+            .group {
+                margin: 2rem 0;
+                padding: 1rem;
+                border-radius: 10px;
+                width: 95%;
+                max-width: 1800px;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+                background: hsla(0, 0%, 100%, 0.6);
+            }
+
+            table th,
+            table td {
+                text-align: left;
+                padding: 0.5rem;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 40px;
+                background: rgba(48, 45, 45, 1);
+                padding-top: 10px;
+                padding-left: 10px;
+            }
+        </style>
+        
+    </head>
+    <body>
+
+        <nav>
+            <button style="position:absolute;top:13px;right:40px" onclick="runInternalScript()">Refresh</button>
+            <h1 style="position:absolute;top:5px;left:50%;transform:translateX(-50%);color:white;margin:0;">IOMMU Tool</h1>
+        </nav>
+        
+        
+        <center>
+
+            <div id="iommu-groups"></div>
+
+        </center>
+
+        <script src="iommu-tool.js"></script>
+        <script src="jquery.simple-checkbox-table.js"></script>
+
+    </body>
+</html>
