@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>AutoVirt</title>
+
+        <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+        <link rel="stylesheet" href="./app.css">
+
+        
+    </head>
+    <body>
+
+        <div id="app-container">
+
+            <header>
+                <div id="material-tabs">
+                    <a id="tab1-tab" href="#tabView" class="active">My Machines</a>
+                    <a id="tab2-tab" href="#tabCreate">Create VM</a>
+                    <a id="tab3-tab" href="#tabProfiles">Resource Profiles</a>
+                    <a id="tab3-tab" href="#tabGroups">IOMMU Groups</a>
+                    <a id="tab4-tab" href="#tabAbout">About</a>
+                </div>
+            </header>
+
+            <div id="view-container">
+                <div class="tab-content">
+                    <div id="tabView">
+                        <div>Tab One. Click IOMMU Groups to see grouping.</div>
+                    </div>
+                    <div id="tabCreate">
+                        <div>Tab Two.</div>
+                    </div>
+                    <div id="tabProfiles">
+                        <div>Resource Profiles.</div>
+                    </div>
+                    <div id="tabGroups">
+                        <div id="iommu-groups"></div>
+                    </div>
+                    <div id="tabAbout">
+                        <center>
+                            <h3>Nebula Harmony</h3>
+                            <h4>Easy virtualisation frontend powered by QEMU/Libvirt</h4>
+                            <div>By Tristan Gauci (T/A Nebula Software)</div>
+                            <div>https://github.com/maega</div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="app.js"></script>
+        <script src="jquery.simple-checkbox-table.js"></script>
+
+    </body>
+</html>
