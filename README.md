@@ -8,7 +8,7 @@ With AutoVirt, you can easily setup a Windows/macOS/Linux Virtual Machine on a L
 
 Currently includes iommu-tool, which displays IOMMU groups in a GUI. The goal is to be able to select groups/devices to passthrough and have iommu-tool automatically generate valid libvirt hook scripts to unbind/rebind PCIe devices.
 
-## Compatibility
+## :mag: Compatibility
 
 This project has been tested on the following system:
 
@@ -24,7 +24,7 @@ Ideally you should have relatively sane IOMMU grouping to avoid ACS patching. Th
 
 While this project has only been tested on Manjaro (so far), it's designed to run on most Debian, Arch and RHEL based Linux distributions. Windows will never be supported as a host OS due to technical limitations.
 
-## Installation
+## :electric_plug: Installation
 
 The _install.sh_ script in the project's root directory will attempt to configure your system for virtualisation by installing the QEMU/Libvirt/OVMF stack, Node.js (for AutoVirt's iommu-tool and web-remote) and The Passthrough Post's VFIO-Tools Hook Helper. It'll also build the project's _node_modules_ directory using `npm install`.
 
@@ -35,7 +35,7 @@ chmod +x ./install.sh
 ./install.sh
 ```
 
-## Usage
+## :information_source: Usage
 
 The default entrypoint defined in package.json will currently launch iommu-tool.
 
@@ -43,31 +43,31 @@ The default entrypoint defined in package.json will currently launch iommu-tool.
 npm start
 ```
 
-## Progress
+## :checkered_flag:	Progress
 
-* [ ] Check for hardware accelerated virtualisation support (VT-x / AMD-V)
+* :x: Check for hardware accelerated virtualisation support (VT-x / AMD-V)
 
-* [x] Automatically prepare a Linux system for virtualisation
+* :heavy_check_mark: Automatically prepare a Linux system for virtualisation
 
-* [x] Display IOMMU Groups in GUI
+* :heavy_check_mark: Display IOMMU Groups in GUI
 
-* [ ] Filter IOMMU devices by type (eg: GPU, USB Controller, etc..)
+* :x: Filter IOMMU devices by type (eg: GPU, USB Controller, etc..)
 
-* [ ] Generate libvirt hook scripts based on passthrough selection
+* :x: Generate libvirt hook scripts based on passthrough selection
 
-* [ ] Create and define libvirt XML with passthrough host devices pre-configured
+* :x: Create and define libvirt XML with passthrough host devices pre-configured
 
-* [ ] Easy "Create a VM" wizard (GUI based, auto configures VM from scratch)
+* :x: Easy "Create a VM" wizard (GUI based, auto configures VM from scratch)
 
-* [ ] TPM Emulation & Hardware TPM Passthrough
+* :x: TPM Emulation & Hardware TPM Passthrough
 
-* [ ] Automatic CPU Pinning & performance optimisations
+* :x: Automatic CPU Pinning & performance optimisations
 
-* [ ] Automatic UUID configuration to prevent Windows deactivation when running a dual-booted native OS in a VM
+* :x: Automatic UUID configuration to prevent Windows deactivation when running a dual-booted native OS in a VM
 
-* [ ] WebUI to control VMs and invoke hook scripts
+* :x: WebUI to control VMs and invoke hook scripts
 
-## Support
+## :heart: Support
 
 If you'd like to support ongoing development of this project, a donation would be very much appreciated to help me dedicate more of my time making AutoVirt a reality. I accept direct crypto donations via any of the addresses below or through [Coinbase Commerce](https://commerce.coinbase.com/checkout/bb4f7665-bfdc-4c22-9fc8-78299010b1c8).
 
