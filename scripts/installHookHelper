@@ -5,6 +5,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+mkdir /etc/libvirt/hooks
 wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' -O /etc/libvirt/hooks/qemu
 chmod +x /etc/libvirt/hooks/qemu
 systemctl restart libvirtd
