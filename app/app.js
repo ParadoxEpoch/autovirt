@@ -138,7 +138,7 @@ async function runInternalScript() {
             
             devices.push(`
                 <tr>
-                    <td><input type="checkbox" data-passthru="${thisMeta.passThru}" ${thisMeta.passThru === 'ignored' ? 'disabled' : ''}></td>
+                    <td><input type="checkbox" class="chkDevice" data-devid="${device.id}" data-passthru="${thisMeta.passThru}" ${thisMeta.passThru === 'ignored' ? 'disabled' : ''}></td>
                     <td>${thisMeta.typeName}</td>
                     <td>${device.name}</td>
                     <td>${device.driver}</td>
@@ -187,6 +187,15 @@ async function runInternalScript() {
 
     return jsonResult;
 
+}
+
+function checkSelected() {
+    const selectedDevices = [];
+    $('.chkDevice').each((index, item) => {
+        if (item.checked) selectedDevices.push($(item).data('devid'));
+    });
+    alert('Will passthrough:\n\n' + selectedDevices.join('\n'));
+    return selectedDevices;
 }
 
 runInternalScript();
