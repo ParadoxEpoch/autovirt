@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# Helpful to read output when debugging
+#set -x
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root." 
+   exit 1
+fi
+
+# Unbind the GPU if --unbindGpu argument
+function unbindGpu() {
+
+    echo "Preparing to unbind GPU..."
+
+    # Stop your display manager. If you're on kde it'll be sddm.service. Gnome users should use 'killall gdm-x-session' instead
+    #systemctl stop display-manager.service
+    #killall gdm-x-session
+
+    # Unbind VTconsoles
+    #echo 0 > /sys/class/vtconsole/vtcon0/bind
+
+    # Unbind EFI-Framebuffer
+    #echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
+
+    # Avoid a race condition by waiting a couple of seconds. This can be calibrated to be shorter or longer if required for your system
+    sleep 3
+
+}
+
+function unbindDevs() {
+    devices="$(echo "$1" | sed -r 's/[:.]+/_/g')"
+    devices="$(echo "$devices" | sed -r 's/[,]+/ /g')"
+
+    arr=($devices)
+
+    for i in "${!arr[@]}"; do
+        arr[$i]="pci_0000_${arr[$i]}"
+        virsh nodedev-detach ${arr[$i]}
+    done
+
+    echo "Detached Devices: ${arr[*]}"
+}
+
+# One colon (:) - Value required for this param
+# Two colons (::) - Value optional for this param
+# No colon - Value ignored/not used for this param
+VALID_ARGS=$(getopt -o gd:x: --long unbindGpu,unbindDevs:,delta: -- "$@")
+if [[ $? -ne 0 ]]; then
+    exit 1;
+fi
+
+eval set -- "$VALID_ARGS"
+
+if [[ $# -lt 2 ]]; then
+    echo "Preboot script for AutoVirt VM. Passes through devices to virtio."
+    echo
+    echo "Syntax: startVM [-g|x|v|V] [-d devid1,devid2]"
+    echo "Options:"
+    echo "-g [--unbindGpu]  : Run GPU unbind procedure (stop drivers, unbind framebuffer .etc)"
+    echo "-d [--unbindDevs] : Comma-delimited list of device IDs to passthrough (eg: 05:00.0,05:00.1)"
+    echo
+    echo "No arguments were passed to the script!"
+    exit 1
+fi
+
+while [ : ]; do
+  case "$1" in
+    -g | --unbindGpu)
+        echo "Processing 'unbindGpu' option"
+        unbindGpu
+        shift
+        ;;
+    -d | --unbindDevs)
+        echo "Processing 'unbindDevs' option. Input argument is '$2'"
+        unbindDevs "$2"
+        shift 2
+        ;;
+    -x | --delta)
+        echo "Processing 'delta' option. Input argument is '$2'"
+        shift 2
+        ;;
+    --) shift; 
+        break 
+        ;;
+  esac
+done
+
+# Load VFIO kernel module
+modprobe vfio_pci
+
+exit 0
+
