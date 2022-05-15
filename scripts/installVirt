@@ -1,11 +1,81 @@
 #!/bin/bash
 
+checkVirtSupport() {
+
+    tick="\e[32m\u2714\033[0m"
+    cross="\e[31m\u2718\033[0m"
+
+    errorMsg=""
+
+    printf "\033[1m-- Checking Virtualisation Support --\033[0m\n\n"
+    
+    # Check if IOMMU is enabled
+    sudo dmesg | grep 'IOMMU enabled'
+    if [ $? -eq 0 ]; then
+        printf "$tick IOMMU is enabled\n"
+    else
+        printf "$cross IOMMU is NOT enabled!\n"
+        errorMsg+="\u21AA IOMMU is not enabled on this system. Please ensure VT-x, VT-d or AMD-V are enabled in your BIOS and grub kernel parameters have been set.\n"
+    fi
+
+    grubCmd="$(cat /proc/cmdline)"
+    cpuVendor="$(lscpu | grep 'Vendor ID')"
+    if [[ "$cpuVendor" == *"GenuineIntel"* ]]; then
+
+        printf "$tick Detected a supported Intel CPU\n"
+        
+        if [[ "$grubCmd" == *"intel_iommu=on"* ]]; then
+            printf "$tick Intel IOMMU kernel parameter (intel_iommu=on) is present\n"
+        else
+            printf "$cross Intel IOMMU kernel parameter (intel_iommu=on) is missing!\n"
+            errorMsg+="\u21AA Add intel_iommu=on to your grub configuration and reboot\n"
+        fi
+
+    elif [[ "$cpuVendor" == *"AuthenticAMD"* ]]; then
+
+        printf "$tick Detected a supported AMD CPU\n"
+
+        if [[ "$grubCmd" == *"amd_iommu=on"* ]]; then
+            printf "$tick AMD IOMMU kernel parameter (amd_iommu=on) is present\n"
+        else
+            printf "$cross AMD IOMMU kernel parameter (amd_iommu=on) is missing!\n"
+            errorMsg+="\u21AA Add amd_iommu=on to your grub configuration and reboot\n"
+        fi
+
+    else
+        printf "$cross No compatible CPU found\n"
+        errorMsg+="\u21AA You need an Intel or AMD x86_64 CPU to use Harmony\n"
+    fi
+
+    # Check for iommu=pt. Passthru VMs will perform poorly without this kernel param.
+    if [[ "$grubCmd" == *"iommu=pt"* ]]; then
+        printf "$tick IOMMU passthru kernel parameter (iommu=pt) is present\n"
+    else
+        printf "$cross IOMMU passthru kernel parameter (iommu=pt) is missing!\n"
+        errorMsg+="\u21AA Add iommu=pt to your grub configuration and reboot. Without this kernel parameter your VM performance will suffer.\n"
+    fi
+
+    if [ -z "$errorMsg" ]; then
+        printf "\n\e[31m\u21AA Woohoo! Virtualisation is fully supported and enabled on your system!\n\033[0m"
+    else
+        printf "\n\e[31m$errorMsg\033[0m"
+        exit 1
+    fi
+
+}
+
+# Check for virtualisation support
+checkVirtSupport
+
 installArch() {
     echo "Arch Linux based distro detected. Proceeding with package installation..."
     sudo pacman -Syy
     sudo pacman -S qemu libvirt ovmf virt-manager virt-viewer
     ## ebtables should probably be installed so we can use non-passthrough networking, but since it replaces iptables we should have an additional prompt to confirm with the user.
     ## WE DON'T NEED qemu-arch-extra for x86_64 virtualization. Needed for emulating ARM/PPC etc... | pacman -S qemu qemu-arch-extra libvirt ovmf virt-manager virt-viewer
+    
+    # Enable the libvirt service immediately
+    sudo systemctl enable --now libvirtd
 }
 
 installDebian() {

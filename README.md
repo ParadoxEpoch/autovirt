@@ -45,7 +45,7 @@ npm start
 
 ## :checkered_flag:	Progress
 
-* :x: Check for hardware accelerated virtualisation support (VT-x / AMD-V)
+* :heavy_check_mark: Check for hardware accelerated virtualisation support (VT-x / AMD-V)
 
 * :heavy_check_mark: Automatically prepare a Linux system for virtualisation
 
