@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron --enable-transparent-visuals --disable-gpu .",
     "dev": "electron --enable-transparent-visuals --disable-gpu --inspect .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cli": "node ./cli/cli.js"
   },
   "repository": {
     "type": "git",
