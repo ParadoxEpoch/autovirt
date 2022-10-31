@@ -71,3 +71,5 @@ async function getIommu() {
 
     console.log(jsonResult);
 }
+
+getIommu();
