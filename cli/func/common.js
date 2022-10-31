@@ -55,7 +55,7 @@ exports.shellExec = async (shellCmd, shellArgs = [], verbose = false) => {
         const spawnArgs = verbose ? {stdio: 'inherit'} : {}
         let stdoutData = '';
         const script = spawn(shellCmd, shellArgs, spawnArgs);
-        script.on("data", data => stdoutData += data);
+        script.stdout.on('data', data => stdoutData += data);
         script.on('close', (code) => {
             resolve({
                 code: code,

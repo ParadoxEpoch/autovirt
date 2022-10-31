@@ -143,7 +143,7 @@ const deviceMeta = [
 
 async function getIommu() {
 
-    const result = await shellExec('bash', [`./app/iommu-json.sh`]);
+    const result = await shellExec('./app/iommu-json.sh');
 
     const jsonParsed = JSON.parse(result.stdout);
 

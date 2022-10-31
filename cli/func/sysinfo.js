@@ -58,17 +58,8 @@ const getSystemParam = {
 
     disks: async () => {
         console.log('Getting Disk Information...');
-        
-        let logical = JSON.parse(mountInfo.raw);
-        if (!Array.isArray(logical)) logical = [logical];
 
-        let physical = JSON.parse(diskInfo.raw);
-        if (!Array.isArray(physical)) physical = [physical];
-
-        return {
-            physical: physical,
-            logical: logical
-        }
+        return {}
     }
 
 }
