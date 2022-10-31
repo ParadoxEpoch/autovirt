@@ -4,10 +4,7 @@
   "description": "QEMU VirtIO Virtualisation w/ PCIe Passthrough and Web UI",
   "main": "index.js",
   "scripts": {
-    "start": "electron --enable-transparent-visuals --disable-gpu .",
-    "dev": "electron --enable-transparent-visuals --disable-gpu --inspect .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "cli": "node ./cli/cli.js"
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
