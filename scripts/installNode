@@ -71,6 +71,8 @@ if [ -f "/etc/arch-release" ]; then
     installArch
 elif [ -f "/etc/debian-release" ]; then
     installDebian
+elif [ -f "/etc/debian_version" ]; then
+    installDebian
 elif [ -f "/etc/redhat-release" ]; then
     installRhel
 else
